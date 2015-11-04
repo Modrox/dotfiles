@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# ~/.osx — https://mths.be/osx
+
+# Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Save screenshots to the pictures/Screenshot
+defaults write com.apple.screencapture location -string "${HOME}/Pictures/Screenshots"
+
+# Disable shadow in screenshots
+defaults write com.apple.screencapture disable-shadow -bool true
+
+# Finder: show all filename extensions
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Avoid creating .DS_Store files on network volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# Don’t display the annoying prompt when quitting iTerm
+defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+
+
+###############################################################################
+# Kill affected applications                                                  #
+###############################################################################
+
+for app in "cfprefsd" \
+	"Dock" "Finder" \
+	"SystemUIServer" \
+	"Terminal"; do
+	killall "${app}" &> /dev/null
+done
+echo "Done. Note that some of these changes require a logout/restart to take effect."
